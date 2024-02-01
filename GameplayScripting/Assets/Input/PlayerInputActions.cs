@@ -35,6 +35,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""PowerBar"",
+                    ""type"": ""Value"",
+                    ""id"": ""c86f9c96-836e-4528-b3e8-b2b6b9f28fc3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -136,6 +145,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5e3931ed-a97f-4385-979e-360e22f3c1ec"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""PowerBar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4ede69be-cc16-4435-94a3-03ef19eed35f"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PowerBar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -173,6 +204,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // PlayerJousting
         m_PlayerJousting = asset.FindActionMap("PlayerJousting", throwIfNotFound: true);
         m_PlayerJousting_Move = m_PlayerJousting.FindAction("Move", throwIfNotFound: true);
+        m_PlayerJousting_PowerBar = m_PlayerJousting.FindAction("PowerBar", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -235,11 +267,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerJousting;
     private List<IPlayerJoustingActions> m_PlayerJoustingActionsCallbackInterfaces = new List<IPlayerJoustingActions>();
     private readonly InputAction m_PlayerJousting_Move;
+    private readonly InputAction m_PlayerJousting_PowerBar;
     public struct PlayerJoustingActions
     {
         private @PlayerInputActions m_Wrapper;
         public PlayerJoustingActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_PlayerJousting_Move;
+        public InputAction @PowerBar => m_Wrapper.m_PlayerJousting_PowerBar;
         public InputActionMap Get() { return m_Wrapper.m_PlayerJousting; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -252,6 +286,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @PowerBar.started += instance.OnPowerBar;
+            @PowerBar.performed += instance.OnPowerBar;
+            @PowerBar.canceled += instance.OnPowerBar;
         }
 
         private void UnregisterCallbacks(IPlayerJoustingActions instance)
@@ -259,6 +296,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @PowerBar.started -= instance.OnPowerBar;
+            @PowerBar.performed -= instance.OnPowerBar;
+            @PowerBar.canceled -= instance.OnPowerBar;
         }
 
         public void RemoveCallbacks(IPlayerJoustingActions instance)
@@ -297,5 +337,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IPlayerJoustingActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnPowerBar(InputAction.CallbackContext context);
     }
 }
