@@ -1,0 +1,5 @@
+For the Gameplay Scripting ICA, we have to create some arcade-esc games that have some predetermined features.
+
+We must have 3 different playable objects. One must be controlled by applying a force to it's rigidbody. One must move without using a rigidbody. And the third... *shrug*
+
+We must also have 3 microinteractions. These are little interactions that give the player little bits of feedback or engagement. These features also have rules. One must happen because of a physics collision. One must happen because of a trigger or overlap. One must guide the player through the world, while another must restrict the player.
