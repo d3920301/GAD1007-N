@@ -1,55 +1,65 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PowerBar : MonoBehaviour
 {
     PlayerInputActions playerInputActions;
-    float playerInput = 0.0f;
-    [SerializeField] float power = 1.0f;
-
-    BoxCollider2D boxCollider2D;
-
-    Rigidbody2D rigidbody2D;
-    bool canMove = true;
-
+    // We need a reference to the arrow to move.
+    [SerializeReference] GameObject arrow;
+    // And its rigidbody.
+    [SerializeField] float arrowPower = 1.0f;
+    [SerializeReference] GameObject arrowUpperBound;
+    [SerializeReference] GameObject arrowLowerBound;
+    // Get ref to powerzone
+    [SerializeReference] GameObject powerZone;
+    [SerializeField] float noPowerBoost = 1.0f;
+    [SerializeField] float powerBoost = 5.0f;
+    BoxCollider2D arrowBoxCol;
+    Rigidbody2D arrowRb;
+    BoxCollider2D powerZoneBoxCol;
+    float playerInput;
+    public float powerOutput = 1.0f;
 
     private void Awake()
     {
         playerInputActions = new PlayerInputActions();
         playerInputActions.Enable();
 
-        // Determine Collider loc when object loads
-        boxCollider2D = GetComponent<BoxCollider2D>();
+        arrowBoxCol = arrow.GetComponent<BoxCollider2D>();
+        arrowRb = arrow.GetComponent<Rigidbody2D>();
 
-        rigidbody2D = GetComponent<Rigidbody2D>();
-
-        // Range shouldn't have hardcoded values. Collider scale looks static relative parent scale? (parent y = 2.5, col y scale = 1 and fits perfectly)
-        // @todo: This does not work with sizes that are not 0.333 -_-
-        //boxCollider2D.offset = new Vector2(0, Random.Range(0 - boxCollider2D.size.y, 0 + boxCollider2D.size.y));
+        powerZoneBoxCol = powerZone.GetComponent<BoxCollider2D>();
     }
 
-    // Update and Fixed update should be in another script for the arrow?
     private void Update()
     {
-        playerInput = playerInputActions.PlayerJousting.PowerBar.ReadValue<float>();
+        playerInput = playerInputActions.Jousting.PowerBar.ReadValue<float>();
+        //Debug.Log("PowerBar Player Input: " + playerInput);
+
+        if (powerZoneBoxCol.IsTouching(arrowBoxCol))
+        {
+            powerOutput = powerBoost;
+            //Debug.Log("Arrow Entered Collider");
+        }
+        else
+        {
+            powerOutput = noPowerBoost;
+            //Debug.Log("Arrow Left Collider");
+        }
+
+        // Set arrow and bound positions to player powerbar pos
+        // The 0.1f is the offset from the powerbar
+        arrow.transform.position = new Vector3(this.transform.position.x + 0.1f, arrow.transform.position.y, 0);
+        arrowUpperBound.transform.position = new Vector3(this.transform.position.x, arrowUpperBound.transform.position.y, 0);
+        arrowLowerBound.transform.position = new Vector3(this.transform.position.x, arrowLowerBound.transform.position.y, 0);
     }
 
     private void FixedUpdate()
     {
-        if (canMove)
-        {
-            rigidbody2D.AddForce(new Vector2(0, playerInput * power));
-        }
+        ManageArrow();
     }
 
-    private void OnCollisionEnter2D(Collision2D other) {
-        Debug.Log("1");
-    }
-
-    private void OnCollisionStay2D(Collision2D other)
+    private void ManageArrow()
     {
-        Debug.Log(other);
+        arrowRb.AddForce(Vector2.up * playerInput * arrowPower);
     }
 }

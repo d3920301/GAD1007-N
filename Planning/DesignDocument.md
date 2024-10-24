@@ -2,6 +2,13 @@
 
 by me :)
 
+## HELLO
+hiii so we are completely scrapping the pinball game, and the smile for me game. 
+
+We are focusing on the jousting game by expanding the gameplay. We are adding a store, and maybe a death state?
+
+Jousting - Between rounds we go to the shop. We can change gear here to better suit our next opponent. (More health, or more armour) - Cant use every item at the same time. Use transform movement?
+
 ## Contents
 
 1. [Game Ideas](#game-ideas)

@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - Lance
+  - GameInformation
+  - Door
   layers:
   - Default
   - TransparentFX
@@ -12,10 +16,10 @@ TagManager:
   - Water
   - UI
   - PowerBar
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Enemy
+  - Lance
+  - RoundMeta
   - 
   - 
   - 

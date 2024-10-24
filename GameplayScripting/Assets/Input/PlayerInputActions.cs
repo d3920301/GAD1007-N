@@ -24,7 +24,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     ""name"": ""PlayerInputActions"",
     ""maps"": [
         {
-            ""name"": ""PlayerJousting"",
+            ""name"": ""Jousting"",
             ""id"": ""84f264fa-9e58-4bc2-955b-8922b4618706"",
             ""actions"": [
                 {
@@ -163,10 +163,110 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""PowerBar"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Cheats"",
+            ""id"": ""1c6df04c-1103-4c5e-98a0-85edbc9a9935"",
+            ""actions"": [
+                {
+                    ""name"": ""NextRound"",
+                    ""type"": ""Button"",
+                    ""id"": ""3b262154-e629-4785-a59e-3f016c2945a8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""6576984e-4f67-4c0c-b040-e288ddccbc90"",
+                    ""path"": ""<Keyboard>/n"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""NextRound"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Town"",
+            ""id"": ""1fca606a-dcb3-47cf-8377-c24a827021be"",
+            ""actions"": [
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""80338c67-9a45-4e72-8497-4c2929552cee"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""0250b796-7141-42bb-bbfa-8a9fb1c2a3fc"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""daee1b0e-35bb-4fdb-9414-36bde11f1dad"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""c451f534-0202-4172-9229-1d6d13ca90ec"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""86dd67bd-13e2-402f-89f7-219e2a0c7f47"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""bffee50b-4f46-4b2e-959c-c5188210511e"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -201,10 +301,16 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     ]
 }");
-        // PlayerJousting
-        m_PlayerJousting = asset.FindActionMap("PlayerJousting", throwIfNotFound: true);
-        m_PlayerJousting_Move = m_PlayerJousting.FindAction("Move", throwIfNotFound: true);
-        m_PlayerJousting_PowerBar = m_PlayerJousting.FindAction("PowerBar", throwIfNotFound: true);
+        // Jousting
+        m_Jousting = asset.FindActionMap("Jousting", throwIfNotFound: true);
+        m_Jousting_Move = m_Jousting.FindAction("Move", throwIfNotFound: true);
+        m_Jousting_PowerBar = m_Jousting.FindAction("PowerBar", throwIfNotFound: true);
+        // Cheats
+        m_Cheats = asset.FindActionMap("Cheats", throwIfNotFound: true);
+        m_Cheats_NextRound = m_Cheats.FindAction("NextRound", throwIfNotFound: true);
+        // Town
+        m_Town = asset.FindActionMap("Town", throwIfNotFound: true);
+        m_Town_Move = m_Town.FindAction("Move", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -263,26 +369,26 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // PlayerJousting
-    private readonly InputActionMap m_PlayerJousting;
-    private List<IPlayerJoustingActions> m_PlayerJoustingActionsCallbackInterfaces = new List<IPlayerJoustingActions>();
-    private readonly InputAction m_PlayerJousting_Move;
-    private readonly InputAction m_PlayerJousting_PowerBar;
-    public struct PlayerJoustingActions
+    // Jousting
+    private readonly InputActionMap m_Jousting;
+    private List<IJoustingActions> m_JoustingActionsCallbackInterfaces = new List<IJoustingActions>();
+    private readonly InputAction m_Jousting_Move;
+    private readonly InputAction m_Jousting_PowerBar;
+    public struct JoustingActions
     {
         private @PlayerInputActions m_Wrapper;
-        public PlayerJoustingActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_PlayerJousting_Move;
-        public InputAction @PowerBar => m_Wrapper.m_PlayerJousting_PowerBar;
-        public InputActionMap Get() { return m_Wrapper.m_PlayerJousting; }
+        public JoustingActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Jousting_Move;
+        public InputAction @PowerBar => m_Wrapper.m_Jousting_PowerBar;
+        public InputActionMap Get() { return m_Wrapper.m_Jousting; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlayerJoustingActions set) { return set.Get(); }
-        public void AddCallbacks(IPlayerJoustingActions instance)
+        public static implicit operator InputActionMap(JoustingActions set) { return set.Get(); }
+        public void AddCallbacks(IJoustingActions instance)
         {
-            if (instance == null || m_Wrapper.m_PlayerJoustingActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_PlayerJoustingActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_JoustingActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_JoustingActionsCallbackInterfaces.Add(instance);
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
@@ -291,7 +397,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @PowerBar.canceled += instance.OnPowerBar;
         }
 
-        private void UnregisterCallbacks(IPlayerJoustingActions instance)
+        private void UnregisterCallbacks(IJoustingActions instance)
         {
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
@@ -301,21 +407,113 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @PowerBar.canceled -= instance.OnPowerBar;
         }
 
-        public void RemoveCallbacks(IPlayerJoustingActions instance)
+        public void RemoveCallbacks(IJoustingActions instance)
         {
-            if (m_Wrapper.m_PlayerJoustingActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_JoustingActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IPlayerJoustingActions instance)
+        public void SetCallbacks(IJoustingActions instance)
         {
-            foreach (var item in m_Wrapper.m_PlayerJoustingActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_JoustingActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_PlayerJoustingActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_JoustingActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public PlayerJoustingActions @PlayerJousting => new PlayerJoustingActions(this);
+    public JoustingActions @Jousting => new JoustingActions(this);
+
+    // Cheats
+    private readonly InputActionMap m_Cheats;
+    private List<ICheatsActions> m_CheatsActionsCallbackInterfaces = new List<ICheatsActions>();
+    private readonly InputAction m_Cheats_NextRound;
+    public struct CheatsActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public CheatsActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @NextRound => m_Wrapper.m_Cheats_NextRound;
+        public InputActionMap Get() { return m_Wrapper.m_Cheats; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CheatsActions set) { return set.Get(); }
+        public void AddCallbacks(ICheatsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CheatsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CheatsActionsCallbackInterfaces.Add(instance);
+            @NextRound.started += instance.OnNextRound;
+            @NextRound.performed += instance.OnNextRound;
+            @NextRound.canceled += instance.OnNextRound;
+        }
+
+        private void UnregisterCallbacks(ICheatsActions instance)
+        {
+            @NextRound.started -= instance.OnNextRound;
+            @NextRound.performed -= instance.OnNextRound;
+            @NextRound.canceled -= instance.OnNextRound;
+        }
+
+        public void RemoveCallbacks(ICheatsActions instance)
+        {
+            if (m_Wrapper.m_CheatsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ICheatsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CheatsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CheatsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public CheatsActions @Cheats => new CheatsActions(this);
+
+    // Town
+    private readonly InputActionMap m_Town;
+    private List<ITownActions> m_TownActionsCallbackInterfaces = new List<ITownActions>();
+    private readonly InputAction m_Town_Move;
+    public struct TownActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public TownActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Town_Move;
+        public InputActionMap Get() { return m_Wrapper.m_Town; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(TownActions set) { return set.Get(); }
+        public void AddCallbacks(ITownActions instance)
+        {
+            if (instance == null || m_Wrapper.m_TownActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_TownActionsCallbackInterfaces.Add(instance);
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
+        }
+
+        private void UnregisterCallbacks(ITownActions instance)
+        {
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
+        }
+
+        public void RemoveCallbacks(ITownActions instance)
+        {
+            if (m_Wrapper.m_TownActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ITownActions instance)
+        {
+            foreach (var item in m_Wrapper.m_TownActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_TownActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public TownActions @Town => new TownActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -334,9 +532,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_GamepadSchemeIndex];
         }
     }
-    public interface IPlayerJoustingActions
+    public interface IJoustingActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnPowerBar(InputAction.CallbackContext context);
+    }
+    public interface ICheatsActions
+    {
+        void OnNextRound(InputAction.CallbackContext context);
+    }
+    public interface ITownActions
+    {
+        void OnMove(InputAction.CallbackContext context);
     }
 }
